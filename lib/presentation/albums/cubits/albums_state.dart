@@ -18,7 +18,7 @@ final class AlbumsLoaded extends AlbumsState {
   AlbumsLoaded({required this.albums});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [albums];
 }
 
 final class AlbumNotFound extends AlbumsState{

@@ -46,6 +46,27 @@ class Album {
   }
 }
 
+class Photo {
+  Photo({
+    required this.path,
+  });
+
+  String path;
+
+  Object encode() {
+    return <Object?>[
+      path,
+    ];
+  }
+
+  static Photo decode(Object result) {
+    result as List<Object?>;
+    return Photo(
+      path: result[0]! as String,
+    );
+  }
+}
+
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -57,6 +78,9 @@ class _PigeonCodec extends StandardMessageCodec {
     }    else if (value is Album) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
+    }    else if (value is Photo) {
+      buffer.putUint8(130);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -67,6 +91,8 @@ class _PigeonCodec extends StandardMessageCodec {
     switch (type) {
       case 129: 
         return Album.decode(readValue(buffer)!);
+      case 130: 
+        return Photo.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -110,6 +136,33 @@ class PhotoGalleryNativeHostApi {
       );
     } else {
       return (pigeonVar_replyList[0] as List<Object?>?)!.cast<Album>();
+    }
+  }
+
+  Future<List<Photo>> getPhotos(String album) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.photo_gallery.PhotoGalleryNativeHostApi.getPhotos$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_channel.send(<Object?>[album]) as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as List<Object?>?)!.cast<Photo>();
     }
   }
 }

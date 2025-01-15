@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_gallery/app/photo_gallery_app.dart';
 import 'package:photo_gallery/app/text_styles.dart';
 import 'package:photo_gallery/domain/entities/album_entity.dart';
 import 'package:photo_gallery/l10n/l10n.dart';
 import 'package:photo_gallery/presentation/albums/cubits/albums_cubit.dart';
-import 'package:photo_gallery/presentation/albums/widgets/empty_albums.dart';
+import 'package:photo_gallery/presentation/widgets/no_data_found.dart';
+import 'package:photo_gallery/presentation/photos/photo_list_screen.dart';
+import 'package:photo_gallery/presentation/widgets/progress_loader.dart';
 
 class AlbumGridView extends StatelessWidget {
   const AlbumGridView({
@@ -23,11 +24,11 @@ class AlbumGridView extends StatelessWidget {
       bloc: albumsCubit,
       builder: (context, state) {
         if (state is AlbumsLoading) {
-          return const CircularProgressIndicator.adaptive();
+          return const ProgressLoader();
         } else if (state is AlbumsLoaded) {
           return _buildAlbumGridView(state.albums);
         }
-        return const EmptyAlbums();
+        return const NoDataFound();
       },
     );
   }
@@ -57,44 +58,54 @@ class _AlbumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Image
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.file(
-            File(albumEntity.thumbnail),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PhotoListScreen(album: albumEntity.name),
           ),
-        ),
-        // Grey overlay
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(12),
+        );
+      },
+      child: Stack(
+        children: [
+          // Image
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              File(albumEntity.thumbnail),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
           ),
-        ),
-        // Text details
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                albumEntity.name,
-                style: TextStyles.albumItemTitleTextStyle,
-              ),
-              Text(
-                '${albumEntity.photoCount} ${context.l10n.photos}',
-                style: TextStyles.albumItemSubTitleTextStyle,
-              ),
-            ],
+          // Grey overlay
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-        ),
-      ],
+          // Text details
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  albumEntity.name,
+                  style: TextStyles.albumItemTitleTextStyle,
+                ),
+                Text(
+                  '${albumEntity.photoCount} ${context.l10n.photos}',
+                  style: TextStyles.albumItemSubTitleTextStyle,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -43,4 +43,10 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
       child: Text(context.l10n.albums, style: TextStyles.albumTitleTextStyle),
     );
   }
+
+  @override
+  void dispose() {
+    _albumsCubit.close();
+    super.dispose();
+  }
 }

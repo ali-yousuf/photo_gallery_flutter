@@ -5,5 +5,6 @@
   "permissionDeniedMessage": "Permission denied. Cannot access albums.",
   "albums": "Albums",
   "noAlbumFound": "No album found",
-  "photos": "Photos"
+  "photos": "Photos",
+  "noDataFound": "No data found"
 }

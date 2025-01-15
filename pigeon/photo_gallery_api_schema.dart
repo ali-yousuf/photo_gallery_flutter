@@ -20,7 +20,17 @@ class Album {
   });
 }
 
+class Photo {
+  final String path;
+
+  Photo({
+    required this.path,
+  });
+}
+
 @HostApi()
 abstract class PhotoGalleryNativeHostApi {
   List<Album> getAlbums();
+
+  List<Photo> getPhotos(String album);
 }
