@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_gallery/app/photo_gallery_app.dart';
+import 'package:photo_gallery/di/service_locator.dart';
 
-void main() {
+Future<void> main() async {
+  await setup();
   runApp(const PhotoGalleryApp());
 }

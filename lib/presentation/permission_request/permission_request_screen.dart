@@ -3,6 +3,7 @@ import 'package:photo_gallery/app/button_styles.dart';
 import 'package:photo_gallery/app/text_styles.dart';
 import 'package:photo_gallery/core/utils/app_assets.dart';
 import 'package:photo_gallery/l10n/l10n.dart';
+import 'package:photo_gallery/presentation/albums/albums_screen.dart';
 import 'package:photo_gallery/presentation/permission_request/cubits/permission_request_cubit.dart';
 
 class PermissionRequestScreen extends StatefulWidget {
@@ -24,7 +25,12 @@ class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
   void _listenPermissionRequestCubit() {
     _permissionRequestCubit.stream.listen((state) {
       if (state is PermissionRequestGranted) {
-        // TODO: navigate to albums screen
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AlbumsScreen()),
+          );
+        }
       } else if (state is PermissionRequestDenied) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

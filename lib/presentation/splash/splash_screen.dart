@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_gallery/core/utils/app_assets.dart';
+import 'package:photo_gallery/presentation/albums/albums_screen.dart';
 import 'package:photo_gallery/presentation/permission_request/permission_request_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,14 +23,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToNextScreen() async {
     final isPhotoPermissionGranted = await Permission.photos.isGranted;
-    debugPrint(isPhotoPermissionGranted.toString());
+
     if (isPhotoPermissionGranted) {
-      // TODO: navigate to albums screen
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AlbumsScreen()),
+        );
+      }
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PermissionRequestScreen()),
-      );
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PermissionRequestScreen()),
+        );
+      }
     }
   }
 
