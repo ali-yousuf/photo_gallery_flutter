@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_gallery/core/utils/app_assets.dart';
+import 'package:photo_gallery/presentation/permission_request/permission_request_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,14 +26,17 @@ class _SplashScreenState extends State<SplashScreen> {
     if (isPhotoPermissionGranted) {
       // TODO: navigate to albums screen
     } else {
-      // TODO: navigate to permission request screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PermissionRequestScreen()),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Image.asset("assets/images/splash.png")),
+      body: Center(child: Image.asset(AppAssets.splashImage)),
     );
   }
 }
