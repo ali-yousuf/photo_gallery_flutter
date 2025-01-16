@@ -1,9 +1,11 @@
 # Photo Gallery Flutter App
+<div style="display: flex; gap: 30px;">
+  <img src="screenshot/permission_request.png" alt="Permission request" width="200" height="400" />
+  <img src="screenshot/albums.png" alt="Albums" width="200" height="400" />
+  <img src="screenshot/photos.png" alt="Photos" width="200" height="400" />
+  <img src="screenshot/photo_view.png" alt="PhotoView" width="200" height="400" />
+</div>
 
-![Permission request](screenshot/permission_request.png)
-![Albums](screenshot/albums.png)
-![Photos](screenshot/photos.png)
-![PhotoView](screenshot/photo_view.png)
 
 ## Description
 
