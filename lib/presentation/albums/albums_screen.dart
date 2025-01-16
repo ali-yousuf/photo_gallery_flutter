@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_gallery/app/text_styles.dart';
-import 'package:photo_gallery/di/service_locator.dart';
+import 'package:photo_gallery/core/di/service_locator.dart';
 import 'package:photo_gallery/l10n/l10n.dart';
 import 'package:photo_gallery/presentation/albums/cubits/albums_cubit.dart';
 import 'package:photo_gallery/presentation/albums/widgets/album_grid_view.dart';
