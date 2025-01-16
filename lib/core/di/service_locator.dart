@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:photo_gallery/core/pegion/photo_gallery_api.dart';
-import 'package:photo_gallery/data/data_source/alubms_data_source.dart';
+import 'package:photo_gallery/data/data_source/album_data_source.dart';
 import 'package:photo_gallery/data/data_source/photo_list_data_source.dart';
 import 'package:photo_gallery/data/repository/album_repository_impl.dart';
 import 'package:photo_gallery/data/repository/photo_list_repository_impl.dart';

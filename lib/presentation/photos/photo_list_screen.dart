@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/di/service_locator.dart';
+import 'package:photo_gallery/core/di/service_locator.dart';
 import 'package:photo_gallery/presentation/photos/cubits/photo_list_cubit.dart';
 import 'package:photo_gallery/presentation/photos/widgets/photo_grid_view.dart';
 
