@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+import 'package:photo_gallery/core/error/exceptions.dart';
 import 'package:photo_gallery/core/pegion/photo_gallery_api.dart';
 
 class PhotoListDataSource {
@@ -10,8 +12,10 @@ class PhotoListDataSource {
   Future<List<Photo>> getPhotoList(String album) async {
     try {
       return await _photoGalleryNativeHostApi.getPhotos(album);
+    } on PlatformException catch (e) {
+      throw PhotoGalleryException(code: e.code);
     } catch (e) {
-      rethrow;
+      throw Exception("Unknown error occurred: $e");
     }
   }
 }

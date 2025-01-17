@@ -24,8 +24,12 @@ final class PhotoListLoaded extends PhotoListState {
 }
 
 final class PhotoListFailure extends PhotoListState {
+  final String failureMessage;
+
+  const PhotoListFailure(this.failureMessage);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [failureMessage];
 }
 
 final class NoPhotoFound extends PhotoListState {

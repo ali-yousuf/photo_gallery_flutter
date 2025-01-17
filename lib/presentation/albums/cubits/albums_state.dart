@@ -27,6 +27,10 @@ final class AlbumNotFound extends AlbumsState{
 }
 
 final class AlbumsFailure extends AlbumsState {
+  final String  failureMessage;
+
+  AlbumsFailure(this.failureMessage);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [failureMessage];
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_gallery/core/error/failure_to_message_converter.dart';
 import 'package:photo_gallery/domain/entities/photo_entity.dart';
 import 'package:photo_gallery/domain/repository/photo_list_repository.dart';
 
@@ -11,15 +12,19 @@ class PhotoListCubit extends Cubit<PhotoListState> {
 
   Future<void> loadPhotoList(String album) async {
     emit(PhotoListLoading());
-    try {
-      final photoList = await _repository.getPhotoList(album);
-      if (photoList.isNotEmpty) {
-        emit(PhotoListLoaded(photoList: photoList));
+    final photosEither = await _repository.getPhotoList(album);
+    photosEither.fold((failure) {
+      emit(
+        PhotoListFailure(
+          FailureToMessageConverter.convert(failure),
+        ),
+      );
+    }, (photos) {
+      if (photos.isNotEmpty) {
+        emit(PhotoListLoaded(photoList: photos));
       } else {
         emit(NoPhotoFound());
       }
-    } catch (e) {
-      emit(PhotoListFailure());
-    }
+    });
   }
 }

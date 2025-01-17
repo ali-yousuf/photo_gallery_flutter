@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_gallery/domain/entities/photo_entity.dart';
 import 'package:photo_gallery/presentation/full_screen/photo_full_screen.dart';
 import 'package:photo_gallery/presentation/photos/cubits/photo_list_cubit.dart';
-import 'package:photo_gallery/presentation/widgets/no_data_found.dart';
+import 'package:photo_gallery/presentation/widgets/failure_message_view.dart';
 import 'package:photo_gallery/presentation/widgets/progress_loader.dart';
 
 class PhotoGridView extends StatelessWidget {
@@ -25,8 +25,12 @@ class PhotoGridView extends StatelessWidget {
           return const ProgressLoader();
         } else if (state is PhotoListLoaded) {
           return _buildPhotoGridView(state.photoList);
+        } else if (state is PhotoListFailure) {
+          return FailureMessageView(
+            message: state.failureMessage,
+          );
         }
-        return const NoDataFound();
+        return const FailureMessageView();
       },
     );
   }

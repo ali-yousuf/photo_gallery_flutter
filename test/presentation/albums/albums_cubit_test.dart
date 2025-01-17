@@ -1,7 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:photo_gallery/core/error/failures.dart';
 import 'package:photo_gallery/domain/entities/album_entity.dart';
 import 'package:photo_gallery/domain/repository/album_repository.dart';
 import 'package:photo_gallery/presentation/albums/cubits/albums_cubit.dart';
@@ -36,7 +38,9 @@ void main() {
       'emits [AlbumsLoading, AlbumsLoaded] when loadAlbums succeeds and albums are found',
       build: () => albumsCubit,
       setUp: () {
-        when(mockAlbumRepository.getAlbums()).thenAnswer((_) async => mockAlbums);
+        when(mockAlbumRepository.getAlbums()).thenAnswer(
+          (_) async => Right(mockAlbums),
+        );
       },
       act: (cubit) => cubit.loadAlbums(),
       expect: () => [
@@ -52,7 +56,9 @@ void main() {
       'emits [AlbumsLoading, AlbumNotFound] when loadAlbums succeeds but no albums are found',
       build: () => albumsCubit,
       setUp: () {
-        when(mockAlbumRepository.getAlbums()).thenAnswer((_) async => []);
+        when(mockAlbumRepository.getAlbums()).thenAnswer(
+          (_) async => const Right([]),
+        );
       },
       act: (cubit) => cubit.loadAlbums(),
       expect: () => [
@@ -68,12 +74,16 @@ void main() {
       'emits [AlbumsLoading, AlbumsFailure] when loadAlbums fails',
       build: () => albumsCubit,
       setUp: () {
-        when(mockAlbumRepository.getAlbums()).thenThrow(Exception('Error fetching albums'));
+        when(mockAlbumRepository.getAlbums()).thenAnswer(
+          (_) async => Left(
+            PhotoGalleryFailure(failureMessage: 'Error fetching albums'),
+          ),
+        );
       },
       act: (cubit) => cubit.loadAlbums(),
       expect: () => [
         AlbumsLoading(),
-        AlbumsFailure(),
+        AlbumsFailure('Error fetching albums'),
       ],
       verify: (cubit) {
         verify(mockAlbumRepository.getAlbums()).called(1);

@@ -6,7 +6,7 @@ import 'package:photo_gallery/app/text_styles.dart';
 import 'package:photo_gallery/domain/entities/album_entity.dart';
 import 'package:photo_gallery/l10n/l10n.dart';
 import 'package:photo_gallery/presentation/albums/cubits/albums_cubit.dart';
-import 'package:photo_gallery/presentation/widgets/no_data_found.dart';
+import 'package:photo_gallery/presentation/widgets/failure_message_view.dart';
 import 'package:photo_gallery/presentation/photos/photo_list_screen.dart';
 import 'package:photo_gallery/presentation/widgets/progress_loader.dart';
 
@@ -27,8 +27,12 @@ class AlbumGridView extends StatelessWidget {
           return const ProgressLoader();
         } else if (state is AlbumsLoaded) {
           return _buildAlbumGridView(state.albums);
+        } else if (state is AlbumsFailure) {
+          return FailureMessageView(
+            message: state.failureMessage,
+          );
         }
-        return const NoDataFound();
+        return const FailureMessageView();
       },
     );
   }

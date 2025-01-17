@@ -3,12 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:photo_gallery/domain/entities/photo_entity.dart' as _i4;
+import 'package:photo_gallery/core/error/failures.dart' as _i5;
+import 'package:photo_gallery/domain/entities/photo_entity.dart' as _i6;
 import 'package:photo_gallery/domain/repository/photo_list_repository.dart'
-    as _i2;
+    as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,23 +25,41 @@ import 'package:photo_gallery/domain/repository/photo_list_repository.dart'
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
+  _FakeEither_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [PhotoListRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPhotoListRepository extends _i1.Mock
-    implements _i2.PhotoListRepository {
+    implements _i3.PhotoListRepository {
   MockPhotoListRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.PhotoEntity>> getPhotoList(String? album) =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.PhotoEntity>>> getPhotoList(
+          String? album) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPhotoList,
           [album],
         ),
         returnValue:
-            _i3.Future<List<_i4.PhotoEntity>>.value(<_i4.PhotoEntity>[]),
-      ) as _i3.Future<List<_i4.PhotoEntity>>);
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.PhotoEntity>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.PhotoEntity>>(
+          this,
+          Invocation.method(
+            #getPhotoList,
+            [album],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PhotoEntity>>>);
 }
